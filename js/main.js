@@ -135,7 +135,7 @@ function mostrarMovimientos() {
     const textoBusqueda =
         busquedaInput.value.toLowerCase();
 
-    let movimientosFiltrados = movimientos;
+    let movimientosFiltrados = [...movimientos];
 
     if (categoriaSeleccionada !== "Todas") {
 
@@ -159,45 +159,48 @@ function mostrarMovimientos() {
 
     }
 
-    movimientosFiltrados.forEach(
-        (movimiento) => {
+    movimientosFiltrados
+        .slice()
+        .reverse()
+        .forEach(
+            (movimiento) => {
 
-            const div =
-                document.createElement("div");
+                const div =
+                    document.createElement("div");
 
-            div.classList.add("movimiento");
+                div.classList.add("movimiento");
 
-            if (movimiento.tipo === "Ingreso") {
+                if (movimiento.tipo === "Ingreso") {
 
-                div.classList.add("ingreso");
+                    div.classList.add("ingreso");
 
-            } else {
+                } else {
 
-                div.classList.add("gasto");
+                    div.classList.add("gasto");
 
-            }
+                }
 
-            div.innerHTML = `
-                <p>
-                    ${movimiento.fecha}
-                    -
-                    ${movimiento.tipo}
-                    -
-                    ${movimiento.descripcion}
-                    -
-                    ${movimiento.categoria}
-                    -
-                    $${formatearMoneda(movimiento.monto)}
+                div.innerHTML = `
+                    <p>
+                        ${movimiento.fecha}
+                        -
+                        ${movimiento.tipo}
+                        -
+                        ${movimiento.descripcion}
+                        -
+                        ${movimiento.categoria}
+                        -
+                        $${formatearMoneda(movimiento.monto)}
 
-                    <button onclick="eliminarMovimiento(${movimientos.indexOf(movimiento)})">
-                        🗑️
-                    </button>
-                </p>
-            `;
+                        <button onclick="eliminarMovimiento(${movimientos.indexOf(movimiento)})">
+                            🗑️
+                        </button>
+                    </p>
+                `;
 
-            listaMovimientos.appendChild(div);
+                listaMovimientos.appendChild(div);
 
-        });
+            });
 
 }
 
