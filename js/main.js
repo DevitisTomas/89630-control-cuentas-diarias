@@ -246,15 +246,20 @@ function actualizarResumen() {
     let totalIngresos = 0;
     let totalGastos = 0;
 
+    let cantidadIngresos = 0;
+    let cantidadGastos = 0;
+
     movimientos.forEach(movimiento => {
 
         if (movimiento.tipo === "Ingreso") {
 
             totalIngresos += movimiento.monto;
+            cantidadIngresos++;
 
         } else {
 
             totalGastos += movimiento.monto;
+            cantidadGastos++;
 
         }
 
@@ -267,10 +272,10 @@ function actualizarResumen() {
         `Saldo: $${formatearMoneda(saldoActual)}`;
 
     ingresos.textContent =
-        `Ingresos: $${formatearMoneda(totalIngresos)}`;
+        `Ingresos: $${formatearMoneda(totalIngresos)} (${cantidadIngresos})`;
 
     gastos.textContent =
-        `Gastos: $${formatearMoneda(totalGastos)}`;
+        `Gastos: $${formatearMoneda(totalGastos)} (${cantidadGastos})`;
 
     actualizarGrafico(
         totalIngresos,
