@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #1f4e79;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+}
+
+input,
+select,
+button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #1f4e79;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #163a5c;
+}
+
+#saldo,
+#ingresos,
+#gastos {
+    background-color: white;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+#listaMovimientos {
+    margin-top: 20px;
+}
+
+.movimiento {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+.ingreso {
+    border-left: 8px solid #198754;
+}
+
+.gasto {
+    border-left: 8px solid #dc3545;
+}
+
+.movimiento button {
+    margin-left: 10px;
+    background-color: #dc3545;
+}
+
+.movimiento button:hover {
+    background-color: #b02a37;
+}
+
+/* TARJETA DEL GRAFICO */
+
+.grafico-container {
+    width: 500px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+}
+
+#graficoFinanzas {
+    width: 100%;
+    max-width: 350px;
+    margin: auto;
+}
+
+canvas {
+    display: block;
+}

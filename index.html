@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Cuentas Diarias</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script defer src="./js/main.js"></script>
+
+</head>
+
+<body>
+
+    <h1>💰 Control de Cuentas Diarias</h1>
+
+    <form id="formMovimiento">
+
+        <input type="text" id="descripcion" placeholder="Descripción" required>
+
+        <input type="number" id="monto" placeholder="Monto" required>
+
+        <select id="categoria">
+            <option value="">Seleccione una categoría</option>
+        </select>
+
+        <select id="tipo">
+            <option value="">Seleccione un tipo</option>
+            <option value="Ingreso">Ingreso</option>
+            <option value="Gasto">Gasto</option>
+        </select>
+
+        <button type="submit">
+            Agregar Movimiento
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>Resumen</h2>
+
+    <p id="saldo">Saldo: $0</p>
+    <p id="ingresos">Ingresos: $0</p>
+    <p id="gastos">Gastos: $0</p>
+
+    <hr>
+
+    <h2>Gráfico</h2>
+
+    <div class="grafico-container">
+
+        <canvas id="graficoFinanzas"></canvas>
+
+    </div>
+
+    <hr>
+
+    <h2>Movimientos</h2>
+
+    <select id="filtroCategoria">
+        <option value="Todas">Todas las categorías</option>
+    </select>
+
+    <br><br>
+
+    <input type="text" id="busqueda" placeholder="Buscar movimiento...">
+
+    <br><br>
+
+    <div id="listaMovimientos"></div>
+
+</body>
+
+</html>

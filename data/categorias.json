@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "nombre": "Comida"
+    },
+    {
+        "id": 2,
+        "nombre": "Transporte"
+    },
+    {
+        "id": 3,
+        "nombre": "Servicios"
+    },
+    {
+        "id": 4,
+        "nombre": "Salud"
+    },
+    {
+        "id": 5,
+        "nombre": "Entretenimiento"
+    },
+    {
+        "id": 6,
+        "nombre": "Otros"
+    }
+]
