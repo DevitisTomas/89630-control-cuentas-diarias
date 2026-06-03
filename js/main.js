@@ -12,6 +12,9 @@ const saldo = document.getElementById("saldo");
 const ingresos = document.getElementById("ingresos");
 const gastos = document.getElementById("gastos");
 
+const estadisticas =
+    document.getElementById("estadisticas");
+
 let movimientos = [];
 let grafico = null;
 
@@ -21,7 +24,7 @@ function formatearMoneda(valor) {
     return valor.toLocaleString("es-AR");
 }
 
-// Cargar categorías desde JSON
+// Cargar categorías
 
 fetch("./data/categorias.json")
     .then(response => response.json())
@@ -47,17 +50,9 @@ fetch("./data/categorias.json")
 
         });
 
-    })
-    .catch(error => {
-
-        console.error(
-            "Error al cargar categorías:",
-            error
-        );
-
     });
 
-// Eventos filtros
+// Filtros
 
 filtroCategoria.addEventListener("change", () => {
 
@@ -71,7 +66,7 @@ busquedaInput.addEventListener("input", () => {
 
 });
 
-// Evento formulario
+// Formulario
 
 formMovimiento.addEventListener("submit", (e) => {
 
@@ -112,8 +107,7 @@ formMovimiento.addEventListener("submit", (e) => {
     Swal.fire({
         title: "Movimiento agregado",
         text: `${descripcion} por $${formatearMoneda(monto)}`,
-        icon: "success",
-        confirmButtonText: "Aceptar"
+        icon: "success"
     });
 
     formMovimiento.reset();
@@ -162,59 +156,56 @@ function mostrarMovimientos() {
     movimientosFiltrados
         .slice()
         .reverse()
-        .forEach(
-            (movimiento) => {
+        .forEach(movimiento => {
 
-                const div =
-                    document.createElement("div");
+            const div =
+                document.createElement("div");
 
-                div.classList.add("movimiento");
+            div.classList.add("movimiento");
 
-                if (movimiento.tipo === "Ingreso") {
+            if (movimiento.tipo === "Ingreso") {
 
-                    div.classList.add("ingreso");
+                div.classList.add("ingreso");
 
-                } else {
+            } else {
 
-                    div.classList.add("gasto");
+                div.classList.add("gasto");
 
-                }
+            }
 
-                div.innerHTML = `
-                    <p>
-                        ${movimiento.fecha}
-                        -
-                        ${movimiento.tipo}
-                        -
-                        ${movimiento.descripcion}
-                        -
-                        ${movimiento.categoria}
-                        -
-                        $${formatearMoneda(movimiento.monto)}
+            div.innerHTML = `
+                <p>
+                    ${movimiento.fecha}
+                    -
+                    ${movimiento.tipo}
+                    -
+                    ${movimiento.descripcion}
+                    -
+                    ${movimiento.categoria}
+                    -
+                    $${formatearMoneda(movimiento.monto)}
 
-                        <button onclick="eliminarMovimiento(${movimientos.indexOf(movimiento)})">
-                            🗑️
-                        </button>
-                    </p>
-                `;
+                    <button onclick="eliminarMovimiento(${movimientos.indexOf(movimiento)})">
+                        🗑️
+                    </button>
+                </p>
+            `;
 
-                listaMovimientos.appendChild(div);
+            listaMovimientos.appendChild(div);
 
-            });
+        });
 
 }
 
-// Eliminar movimiento
+// Eliminar
 
 function eliminarMovimiento(index) {
 
     Swal.fire({
         title: "¿Eliminar movimiento?",
-        text: "Esta acción no se puede deshacer.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
+        confirmButtonText: "Eliminar"
     }).then((result) => {
 
         if (result.isConfirmed) {
@@ -227,19 +218,48 @@ function eliminarMovimiento(index) {
 
             actualizarResumen();
 
-            Swal.fire({
-                title: "Eliminado",
-                text: "El movimiento fue eliminado correctamente.",
-                icon: "success"
-            });
-
         }
 
     });
 
 }
 
-// Actualizar resumen
+// Estadísticas
+
+function mostrarEstadisticas() {
+
+    estadisticas.innerHTML = "";
+
+    const resumenCategorias = {};
+
+    movimientos.forEach(movimiento => {
+
+        if (!resumenCategorias[movimiento.categoria]) {
+
+            resumenCategorias[movimiento.categoria] = 0;
+
+        }
+
+        resumenCategorias[movimiento.categoria] +=
+            movimiento.monto;
+
+    });
+
+    for (const categoria in resumenCategorias) {
+
+        const p =
+            document.createElement("p");
+
+        p.textContent =
+            `${categoria}: $${formatearMoneda(resumenCategorias[categoria])}`;
+
+        estadisticas.appendChild(p);
+
+    }
+
+}
+
+// Resumen
 
 function actualizarResumen() {
 
@@ -265,11 +285,8 @@ function actualizarResumen() {
 
     });
 
-    const saldoActual =
-        totalIngresos - totalGastos;
-
     saldo.textContent =
-        `Saldo: $${formatearMoneda(saldoActual)}`;
+        `Saldo: $${formatearMoneda(totalIngresos - totalGastos)}`;
 
     ingresos.textContent =
         `Ingresos: $${formatearMoneda(totalIngresos)} (${cantidadIngresos})`;
@@ -282,6 +299,8 @@ function actualizarResumen() {
         totalGastos
     );
 
+    mostrarEstadisticas();
+
 }
 
 // Gráfico
@@ -292,9 +311,7 @@ function actualizarGrafico(
 ) {
 
     const ctx =
-        document.getElementById(
-            "graficoFinanzas"
-        );
+        document.getElementById("graficoFinanzas");
 
     if (grafico) {
 
@@ -313,23 +330,16 @@ function actualizarGrafico(
                 "Gastos"
             ],
 
-            datasets: [
-
-                {
-
-                    data: [
-                        totalIngresos,
-                        totalGastos
-                    ],
-
-                    backgroundColor: [
-                        "#198754",
-                        "#dc3545"
-                    ]
-
-                }
-
-            ]
+            datasets: [{
+                data: [
+                    totalIngresos,
+                    totalGastos
+                ],
+                backgroundColor: [
+                    "#198754",
+                    "#dc3545"
+                ]
+            }]
 
         }
 
@@ -337,34 +347,26 @@ function actualizarGrafico(
 
 }
 
-// Guardar datos
+// LocalStorage
 
 function guardarDatos() {
 
     localStorage.setItem(
         "movimientos",
-        JSON.stringify(
-            movimientos
-        )
+        JSON.stringify(movimientos)
     );
 
 }
 
-// Recuperar datos
-
 function cargarDatos() {
 
-    const datosGuardados =
-        localStorage.getItem(
-            "movimientos"
-        );
+    const datos =
+        localStorage.getItem("movimientos");
 
-    if (datosGuardados) {
+    if (datos) {
 
         movimientos =
-            JSON.parse(
-                datosGuardados
-            );
+            JSON.parse(datos);
 
         mostrarMovimientos();
 
@@ -373,7 +375,5 @@ function cargarDatos() {
     }
 
 }
-
-// Iniciar aplicación
 
 cargarDatos();
