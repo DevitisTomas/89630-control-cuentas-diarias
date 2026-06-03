@@ -5,6 +5,9 @@ const busquedaInput = document.getElementById("busqueda");
 const formMovimiento = document.getElementById("formMovimiento");
 const listaMovimientos = document.getElementById("listaMovimientos");
 
+const tituloMovimientos =
+    document.getElementById("tituloMovimientos");
+
 const saldo = document.getElementById("saldo");
 const ingresos = document.getElementById("ingresos");
 const gastos = document.getElementById("gastos");
@@ -123,6 +126,9 @@ function mostrarMovimientos() {
 
     listaMovimientos.innerHTML = "";
 
+    tituloMovimientos.textContent =
+        `Movimientos (${movimientos.length})`;
+
     const categoriaSeleccionada =
         filtroCategoria.value;
 
@@ -130,8 +136,6 @@ function mostrarMovimientos() {
         busquedaInput.value.toLowerCase();
 
     let movimientosFiltrados = movimientos;
-
-    // Filtrar categoría
 
     if (categoriaSeleccionada !== "Todas") {
 
@@ -142,8 +146,6 @@ function mostrarMovimientos() {
             );
 
     }
-
-    // Filtrar texto
 
     if (textoBusqueda !== "") {
 
